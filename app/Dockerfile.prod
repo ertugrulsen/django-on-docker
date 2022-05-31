@@ -69,4 +69,5 @@ RUN chown -R app:app $APP_HOME
 USER app
 
 # run entrypoint.prod.sh
+RUN echo "test"
 ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]

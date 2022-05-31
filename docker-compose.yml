@@ -3,6 +3,7 @@ version: '3.8'
 services:
   web:
     build: ./app
+    image: 253054788966.dkr.ecr.us-east-1.amazonaws.com/django-ec2:web
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app/:/usr/src/app/

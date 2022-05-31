@@ -4,8 +4,8 @@ services:
   web:
     build:
       context: ./app
-      dockerfile: Dockerfile
-    image: 253054788966.dkr.ecr.us-east-1.amazonaws.com/django-ec2:web  
+      dockerfile: Dockerfile.prod
+    image: 253054788966.dkr.ecr.us-east-1.amazonaws.com/django-ec2:web
     command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - static_volume:/home/app/web/staticfiles
@@ -39,6 +39,19 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     depends_on:
       - web
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    env_file:
+      - ./.env.staging.proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - html:/usr/share/nginx/html
+      - vhost:/etc/nginx/vhost.d
+      - acme:/etc/acme.sh
+    depends_on:
+      - nginx-proxy
+
 volumes:
   postgres_data:
   static_volume:

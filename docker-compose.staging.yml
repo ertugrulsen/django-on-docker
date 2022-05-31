@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: ./app
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile
     image: 253054788966.dkr.ecr.us-east-1.amazonaws.com/django-ec2:web  
     command: gunicorn hello_django.wsgi:application --bind 0.0.0.0:8000
     volumes:
